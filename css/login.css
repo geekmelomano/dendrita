@@ -1,0 +1,110 @@
+
+body {
+    font-family: Calibri, Arial, Helvetica, sans-serif;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background: #eee /*url(../img/bg-login.jpg);
+    background-size: cover;*/
+}
+
+.form-signin {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+    margin-bottom: 10px;
+}
+
+.form-signin .checkbox {
+    font-weight: normal;
+}
+
+.form-signin .form-control {
+    position: relative;
+    height: auto;
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+    padding: 10px;
+}
+
+.form-signin .form-control:focus {
+    z-index: 2;
+}
+
+.form-signin #grupoUsuario {
+    margin-bottom: -1px;
+}
+
+.form-signin #grupoUsuario .input-group-addon {
+    border-bottom-left-radius: 0;
+}
+
+.form-signin #grupoUsuario input {
+    border-bottom-right-radius: 0;
+}
+
+.form-signin #grupoClave {
+    margin-bottom: 10px;
+}
+
+.form-signin #grupoClave .input-group-addon {
+    border-top-left-radius: 0;
+}
+
+.form-signin #grupoClave input {
+    border-top-right-radius: 0;
+}
+
+#listaSistemas {
+    height: 370px;
+    padding: 5px;
+    position: relative;
+}
+
+#listaSistemas .sistema {
+    float: left;
+    width: 220px;
+    height: 110px;
+    margin: 0;
+    padding: 5px;
+    cursor: pointer;
+}
+
+#listaSistemas .sistema img {
+    float: left;
+    width: 110px;
+    height: 110px;
+}
+
+#listaSistemas .sistema h3 {
+    margin: 0;
+    padding: 10px 0 0 10px;
+    overflow: hidden;
+    font-size: 1em;
+    font-weight: normal;
+    float: left;
+    max-width: 100px;
+    text-transform: uppercase;
+}
+
+.k-listview:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+#frmEmpresa {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#areaNotificacion {
+    margin-top: 20px;
+}

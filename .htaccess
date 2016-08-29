@@ -1,0 +1,17 @@
+<IfModule mod_rewrite.c> 
+RewriteEngine On 
+RewriteBase /mycofi 
+RewriteCond %{REQUEST_FILENAME} !-f 
+RewriteCond %{REQUEST_FILENAME} !-d 
+RewriteRule ^(.*)$ index.php/$1 [L] 
+</IfModule> 
+<IfModule !mod_rewrite.c> 
+ErrorDocument 404 /mycofi/index.php 
+</IfModule> 
+#
+#<FilesMatch "\.(js|css|html|htm|php|xml)$"> 
+#SetOutputFilter DEFLATE 
+#</FilesMatch> 
+#
+#ExpiresActive On 
+#ExpiresDefault A604800 

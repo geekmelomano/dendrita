@@ -1,0 +1,82 @@
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+body {
+    font-family: Calibri, Arial, Helvetica, sans-serif;
+    min-height: 100%;
+}
+
+h1 { font-size: 24px; color: #666 }
+h2 { font-size: 20px }
+h3 { font-size: 18px }
+h4 { font-size: 16px; color: #1f4d78 }
+h5 { font-style: italic }
+h6 { font-size: 14px }
+
+h1, h2, h3, h4 { font-weight: 300 }
+h2, h3, h5, h6 { color: #428bca }
+
+h1 small, h2 small, h3 small, h4 small, h5 small, h6 small { color: #1f4d78 }
+
+legend {
+    color: rgb(31,77,120);
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.k-grid-header th.k-header > a.k-link {
+    font-weight: bold;
+    text-align: center;
+}
+
+.k-grid tbody .k-button { min-width: 35px }
+.k-button-icontext .k-icon { margin: 0 }
+
+.k-window-titlebar {
+    font-size: 1em;
+    font-weight: 300;
+}
+
+.k-block > .k-header {
+    font-size: 1.1em;
+}
+
+/**/
+
+.main {
+    min-height: 600px;
+    position: relative;
+}
+
+/*  */
+
+#frmEmpresa {
+    margin: 0 10px;
+}
+
+@media (min-width: 768px) {
+    #frmEmpresa {
+        margin: 0 20px;
+        width: 700px;
+    }
+}
+
+#frmEmpresa .form-group {
+    margin-bottom: 5px;
+}
+
+#frmEmpresa .form-control {
+    height: auto;
+}
+
+/**/
+
+#crudGruposMenus {
+    display: none;
+}
+
+#treeSistemaMenus, #treeGrupoMenus {
+    margin: 0 10px 10px;
+}
