@@ -13,15 +13,21 @@ class Sistemagrupomenu extends CI_Controller {
     }
     
     public function crear() {
-        $this->output->set_content_type('application/json')->set_output(json_encode($this->input->post()));
+        $this->sistema_grupo_menu_model->crear();
+        $grupo = json_encode($this->input->post());
+        $this->output->set_content_type('application/json')->set_output($grupo);
     }
     
     public function editar() {
-        $this->output->set_content_type('application/json')->set_output(json_encode($this->input->post()));
+        $this->sistema_grupo_menu_model->editar();
+        $grupo = json_encode($this->input->post());
+        $this->output->set_content_type('application/json')->set_output($grupo);
     }
     
     public function eliminar() {
-        $this->output->set_content_type('application/json')->set_output(json_encode($this->input->post()));
+        $this->sistema_grupo_menu_model->eliminar();
+        $grupo = json_encode($this->input->post());
+        $this->output->set_content_type('application/json')->set_output($grupo);
     }
     
     public function obtenerPorGrupoYPadre() {

@@ -80,3 +80,41 @@ legend {
 #treeSistemaMenus, #treeGrupoMenus {
     margin: 0 10px 10px;
 }
+
+#treeGrupoMenus {
+    background-color: white;
+    border: 1px solid #ddd;
+}
+
+#frmSistemaGrupoMenu {
+    background-color: white;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+
+#frmSistemaGrupoMenu legend {
+    background-color: #1f4d78;
+    color: white;
+    margin-bottom: 0;
+    padding: 5px 20px;
+}
+
+#frmSistemaGrupoMenu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#frmSistemaGrupoMenu ul li {
+    border-top: 1px solid rgba(128, 128, 128, .5);
+    line-height: 28px;
+    margin: 0;
+    min-height: 28px;
+    padding: 5px 20px;
+    vertical-align: middle;
+}
+
+#frmSistemaGrupoMenu ul li .km-switch {
+    float: right;
+}

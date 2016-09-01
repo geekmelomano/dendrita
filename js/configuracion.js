@@ -673,11 +673,9 @@ var modeloSistemaMenus = {
     id: 'cod_menu', 
     hasChildren: 'espadre',
     fields: {
-        espadre: { type: 'number' }
+        espadre: { parse: convertirBooleano, type: 'boolean' }
     }
 };
-
-var treeGrupoMenus;
 
 function iniciarConfSistemaMenus(codSistema) {
     $('#treeSistemaMenus').height($(window).height() - 210).kendoTreeView({
@@ -691,25 +689,49 @@ function iniciarConfSistemaMenus(codSistema) {
             }
         }),
         dataTextField: 'nom_menu',
+        drag: procesarMenuArrastrado,
         dragAndDrop: true,
-        drop: function(evento) {
-            var menu = this.dataItem(evento.sourceNode);
-            
-            switch (evento.dropPosition) {
-                case 'over': treeGrupoMenus.append(menu, $(evento.destinationNode)); break;
-                case 'before': treeGrupoMenus.insertBefore(menu, $(evento.destinationNode)); break;
-                case 'after': treeGrupoMenus.insertAfter(menu, $(evento.destinationNode)); break;
-            }
-            
-            evento.preventDefault();
-        }
+        drop: procesarMenuSoltado
     });
 }
 
+function procesarMenuArrastrado(evento) {
+    if (!modeloVistaGrupoMenus.validar(this.dataItem(evento.sourceNode))) {
+        evento.setStatusClass('k-denied');
+    }
+}
+
+function procesarMenuSoltado(evento) {
+    var menu = this.dataItem(evento.sourceNode);
+    
+    if (modeloVistaGrupoMenus.validar(menu)) {
+        var grupoMenu = {
+            codsis: menu.codsis, cod_sisgrupo: sistemaGrupo.cod_sisgrupo, cod_menu: menu.cod_menu,
+            nom_menu: menu.nom_menu, espadre: menu.espadre, crear: false, modificar: false, consultar: false, 
+            eliminar: false, procesar: false, especial01: false, especial02: false
+        };
+        
+        modeloVistaGrupoMenus.agregar(evento.dropPosition, grupoMenu, evento.destinationNode);
+        evento.preventDefault();
+    } else {
+        notificacion.show('El menú ya se encuentra incluído en el grupo de menús.', 'warning');
+        evento.setValid(false);
+    }
+}
+
+/* Funciones y variables para mantenimiento de grupos de menu */
+
+var modeloVistaGrupoMenus;
+
 function iniciarConfGrupoMenus(codSistema, codSisGrupo) {
-    treeGrupoMenus = $('#treeGrupoMenus').height($(window).height() - 210).kendoTreeView({
-        dataSource: new kendo.data.HierarchicalDataSource({
-            schema: { model: modeloSistemaMenus },
+    $('#treeGrupoMenus').height($(window).height() - 210);
+    
+    modeloVistaGrupoMenus = kendo.observable({
+        editable: false,
+        editado: false,
+        seleccionado: null,
+        fuenteDatos: new kendo.data.HierarchicalDataSource({
+            schema: { model: obtenerModeloGrupoMenu(), parse: convertirRespuestaGrupoMenu },
             transport: {
                 create: { type: 'POST', url: url + 'sistemagrupomenu/crear' },
                 read: {
@@ -720,16 +742,74 @@ function iniciarConfGrupoMenus(codSistema, codSisGrupo) {
                 destroy: { type: 'POST', url: url + 'sistemagrupomenu/eliminar' }
             }
         }),
-        dataTextField: 'nom_menu',
-        dragAndDrop: true,
-        drop: function(evento) {
-            evento.preventDefault();
+        agregar: function(posicion, grupoMenu, elemento) {
+            var treeGrupoMenus = $('#treeGrupoMenus').data('kendoTreeView');
             
-            if (confirm('Realmente desea eliminar este menú del grupo de acceso?')) {
-                this.remove(evento.sourceNode);
+            switch (posicion) {
+                case 'over': treeGrupoMenus.append(grupoMenu, $(elemento)); break;
+                case 'before': treeGrupoMenus.insertBefore(grupoMenu, $(elemento)); break;
+                case 'after': treeGrupoMenus.insertAfter(grupoMenu, $(elemento)); break;
             }
+            this.procesarCambio();
+        },
+        guardar: function() {
+            this.fuenteDatos.sync();
+        },
+        mostrarDetalle: function(evento) {
+            var menu = evento.sender.dataItem(evento.sender.select());
+            this.set('seleccionado', menu);
+            this.set('editable', !menu.espadre);
+        },
+        procesarCambio: function() {
+            this.set('editado', true);
+        },
+        procesarSoltado: function(evento) {
+            if (confirm('Realmente desea eliminar este menú del grupo de acceso?')) {
+                evento.preventDefault();
+                this.fuenteDatos.remove(evento.sender.dataItem(evento.sourceNode));
+                this.procesarCambio();
+            } else
+                evento.setValid(false);
+        },
+        validar: function(grupoMenu) {
+            return this.fuenteDatos.get(grupoMenu.cod_menu) === undefined;
         }
-    }).data('kendoTreeView');
+    });
+    
+    kendo.bind($('#viewGrupoMenu'), modeloVistaGrupoMenus);
+    $('#frmSistemaGrupoMenu input').kendoMobileSwitch({ onLabel: 'SI', offLabel: 'NO' });
+}
+
+function obtenerModeloGrupoMenu() {
+    return { 
+        id: 'cod_menu', 
+        hasChildren: 'espadre',
+        fields: {
+            espadre:    { type: 'boolean' },
+            crear:      { type: 'boolean' },
+            modificar:  { type: 'boolean' },
+            consultar:  { type: 'boolean' },
+            eliminar:   { type: 'boolean' },
+            procesar:   { type: 'boolean' },
+            especial01: { type: 'boolean' },
+            especial02: { type: 'boolean' }
+        }
+    };
+}
+
+function convertirRespuestaGrupoMenu(respuesta) {
+    for (var i = 0; i < respuesta.length; i++) {
+        respuesta[i].espadre = (respuesta[i].espadre === '1');
+        respuesta[i].crear = (respuesta[i].crear === '1');
+        respuesta[i].modificar = (respuesta[i].modificar === '1');
+        respuesta[i].consultar = (respuesta[i].consultar === '1');
+        respuesta[i].eliminar = (respuesta[i].eliminar === '1');
+        respuesta[i].procesar = (respuesta[i].procesar === '1');
+        respuesta[i].especial01 = (respuesta[i].especial01 === '1');
+        respuesta[i].especial02 = (respuesta[i].especial02 === '1');
+    }
+
+    return respuesta;
 }
 
 /* Funciones y variables para mantenimiento de usuarios */

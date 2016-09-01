@@ -28,3 +28,7 @@ function mostrarErrorAjax(peticion, estado, error) {
 function mostrarErrorDataSource(evento) {
     mostrarError(evento.errorThrown, evento.status, evento.xhr);
 }
+
+function convertirBooleano(dato) {
+    return dato === '1';
+}

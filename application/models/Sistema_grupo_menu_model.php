@@ -12,7 +12,7 @@ class Sistema_grupo_menu_model extends Abstract_model {
     public $codsis;
     public $cod_sisgrupo;
     public $cod_menu;
-    public $esfinal;
+    public $espadre;
     public $crear;
     public $modificar;
     public $consultar;
@@ -44,7 +44,7 @@ class Sistema_grupo_menu_model extends Abstract_model {
         $this->codsis = $this->input->post('codsis');
         $this->cod_sisgrupo = $this->input->post('cod_sisgrupo');
         $this->cod_menu = $this->input->post('cod_menu');
-        $this->esfinal = $this->input->post('esfinal');
+        $this->espadre = $this->input->post('espadre');
         $this->crear = $this->input->post('crear');
         $this->modificar = $this->input->post('modificar');
         $this->consultar = $this->input->post('consultar');
