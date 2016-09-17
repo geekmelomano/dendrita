@@ -10,6 +10,8 @@
 
             #container {
                 background-color: #fff;
+                margin: 40px;
+                font: 13px/20px normal Helvetica, Arial, sans-serif;
                 color: #4F5155;
                 margin: 10px;
                 border: 1px solid #D0D0D0;
