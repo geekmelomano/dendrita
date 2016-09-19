@@ -5,7 +5,7 @@
 
 mycofiApp.controller('LoginCtrl', [
     '$http',
-    '$location',
+    '$window',
     'growlService', 
     'usuarioService', 
     'sesionService', 
@@ -15,7 +15,7 @@ mycofiApp.controller('LoginCtrl', [
     LoginCtrl
 ]);
 
-function LoginCtrl($http, $location, growlService, usuarioService, sesionService, 
+function LoginCtrl($http, $window, growlService, usuarioService, sesionService, 
         sistemaService, empresaService, localidadService) {
     var vm = this;
     vm.logueado = false;
@@ -152,7 +152,7 @@ function LoginCtrl($http, $location, growlService, usuarioService, sesionService
     };
     
     vm.irAAdmin = function() {
-        $location.path('/mycofi/admin');
+        $window.location.href = 'http://localhost/mycofi/admin';
     };
 
 }
