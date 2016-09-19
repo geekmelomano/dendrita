@@ -1,48 +1,42 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
+include_once('CrudController.php');
+
 /**
- * Description of Sistemagrupo
+ * La clase Sistemagrupo controla peticiones relacionadas con la obtención y mantenimiento 
+ * de los grupos o perfiles de acceso a los sistemas.
  *
- * @author Jonathan Munoz
+ * @author Jonathan Muñoz Aleman
+ * @copyright (c) 2016, Jonathan Muñoz Aleman
+ * @see CrudController
+ * @since 1.0
  */
-class Sistemagrupo extends CI_Controller {
+class Sistemagrupo extends CrudController {
     
     public function __construct() {
-        parent::__construct();
-        $this->load->model('sistema_grupo_model');
+        parent::__construct('sistema_grupo_model');
     }
     
+    /**
+     * Carga la vista de mantenimiento que utiliza grids.
+     */
     public function index() {
         $this->load->view('gridcrud', array('grid' => 'gridSistemaGrupos', 'funcion' => 'iniciarConfSistemaGrupos'));
     }
     
-    public function obtener() {
-        $grupos = json_encode($this->sistema_grupo_model->obtener_todos());
-        $this->output->set_content_type('application/json')->set_output($grupos);
-    }
-    
-    public function crear() {
-        $this->sistema_grupo_model->crear();
-        $grupo = json_encode($this->input->post());
-        $this->output->set_content_type('application/json')->set_output($grupo);
-    }
-    
-    public function editar() {
-        $this->sistema_grupo_model->editar();
-        $grupo = json_encode($this->input->post());
-        $this->output->set_content_type('application/json')->set_output($grupo);
-    }
-    
-    public function eliminar() {
-        $this->sistema_grupo_model->eliminar();
-        $grupo = json_encode($this->input->post());
-        $this->output->set_content_type('application/json')->set_output($grupo);
-    }
-    
+    /**
+     * Obtiene los grupos o perfiles del sistema identificado con el código enviado 
+     * como parámetro HTTP, y responde con la lista en formato JSON.
+     */
     public function obtenerPorSistema() {
-        $filtro = $this->input->get('filter');
-        $sistema = $filtro['filters'][0]['value'];
-        $grupos = $this->sistema_grupo_model->obtener_x_sistema($sistema);
+        $codsis = $this->input->get('codsis');
+        
+        if (!isset($codsis)) {
+            log_message('info', 'No se ha especificado el código del sistema');
+            show_error('No se ha especificado el código del sistema', 500);
+        }
+        
+        $grupos = $this->modelo->obtener_x_sistema($codsis);
         $salida = json_encode($grupos);
         $this->output->set_content_type('application/json')->set_output($salida);
     }

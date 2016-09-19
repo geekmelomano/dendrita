@@ -3,9 +3,15 @@
 include_once('Abstract_model.php');
 
 /**
- * Description of Sistema_grupo_menu_model
+ * La clase Sistema_grupo_menu_model representa el modelo de datos de la tabla PUB_SISTEMAS_GRUPOS_MENU. 
+ * Cada registro representa los permisos que tiene un menú para un grupo o perfil de 
+ * un sistema, los cuales pueden ser CREAR, MODIFICAR, CONSULTAR, ELIMINAR, PROCESAR. 
+ * Además se tiene dos permisos adicionales, ESPECIAL01 y ESPECIAL02.
  *
- * @author Jonathan Munoz
+ * @author Jonathan Muñoz Aleman
+ * @copyright (c) 2016, Jonathan Muñoz Aleman
+ * @see Abstract_model
+ * @since 1.0
  */
 class Sistema_grupo_menu_model extends Abstract_model {
     
@@ -28,6 +34,15 @@ class Sistema_grupo_menu_model extends Abstract_model {
         parent::__construct('pub_sistemas_grupos_menu');
     }
     
+    /**
+     * Devuelve los menús que se encuentran en el siguiente nivel del menú especificado,
+     * para el grupo o perfil indicado.
+     * 
+     * @param type $sistema El código del sistema
+     * @param type $grupo El código del grupo o perfil
+     * @param type $padre El código del menú superior o padre.
+     * @return array La lista de submenús
+     */
     public function obtener_x_grupo_y_padre($sistema, $grupo, $padre) {
         $this->db->select('pub_sistemas_grupos_menu.*, pub_sistemas_menus.nom_menu')
                 ->from('pub_sistemas_grupos_menu')
@@ -56,6 +71,14 @@ class Sistema_grupo_menu_model extends Abstract_model {
         $this->fecmod = date('Y-m-d H:i:s', now('America/Lima'));
     }
 
+    /**
+     * Devuelve los datos de la clave primaria, la cual está compuesta por:
+     *  - El código del sistema
+     *  - El código del grupo o perfil
+     *  - El código del menú
+     * 
+     * @return array Los datos de la clave primaria.
+     */
     protected function _obtener_id() {
         return array(
             'codsis' => $this->input->post('codsis'),

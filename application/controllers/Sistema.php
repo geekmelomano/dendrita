@@ -1,17 +1,25 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
+include_once('CrudController.php');
+
 /**
- * Description of Sistema
+ * La clase Sistema controla peticiones relacionadas con la obtención y mantenimiento 
+ * de la información de los sistemas.
  *
- * @author Jonathan Munoz
+ * @author Jonathan Muñoz Aleman
+ * @copyright (c) 2016, Jonathan Muñoz Aleman
+ * @see CrudController
+ * @since 1.0
  */
-class Sistema extends CI_Controller {
+class Sistema extends CrudController {
     
     public function __construct() {
-        parent::__construct();
-        $this->load->model('sistema_model');
+        parent::__construct('sistema_model');
     }
     
+    /**
+     * Carga la vista de detalle de grilla.
+     */
     public function index() {
         $this->load->view('gridcruddet', array(
             'titulo' => 'GESTION DE SISTEMAS',
@@ -21,41 +29,27 @@ class Sistema extends CI_Controller {
         ));
     }
     
-    public function obtener() {
-        $sistemas = json_encode($this->sistema_model->obtener_todos());
-        $this->output->set_content_type('application/json')->set_output($sistemas);
-    }
-    
-    public function crear() {
-        $this->sistema_model->crear();
-        $sistema = json_encode($this->input->post());
-        $this->output->set_content_type('application/json')->set_output($sistema);
-    }
-    
-    public function editar() {
-        $this->sistema_model->editar();
-        $sistema = json_encode($this->input->post());
-        $this->output->set_content_type('application/json')->set_output($sistema);
-    }
-    
-    public function eliminar() {
-        $this->sistema_model->eliminar();
-        $sistema = json_encode($this->input->post());
-        $this->output->set_content_type('application/json')->set_output($sistema);
-    }
-    
+    /**
+     * Obtiene los sistemas a los que tiene acceso el usuario que ha iniciado sesión
+     * y devuelve la lista en formato JSON.
+     */
     public function obtenerPorSesion() {
         if (isset($this->session->coduser)) {
-            $sistemas = $this->sistema_model->obtener_x_usuario($this->session->coduser);
-            $this->output->set_content_type('application/json')->set_output(json_encode($sistemas));
+            $sistemas = $this->modelo->obtener_x_usuario($this->session->coduser);
+            $salida = json_encode($sistemas);
+            $this->output->set_content_type('application/json')->set_output($salida);
         } else {
-            log_message('info', 'Ningun usuario ha iniciado sesion.');
-            show_error('Ningun usuario ha iniciado sesion', 500);
+            log_message('info', 'Ningun usuario ha iniciado sesion todavía.');
+            show_error('Ningun usuario ha iniciado sesion todavía', 500);
         }
     }
     
+    /**
+     * Almacena en la sesión el código y el nombre del sistema seleccionado por el usuario.
+     */
     public function recordar() {
-        $sistema = $this->sistema_model->obtener();
+        $datos = json_decode(file_get_contents('php://input'));
+        $sistema = $this->modelo->obtener_x_id(array('codsis' => $datos->codsis));
         
         if (isset($sistema)) {
             $this->session->set_userdata('codsis', $sistema->codsis);
@@ -68,6 +62,7 @@ class Sistema extends CI_Controller {
         }
         
         log_message('info', $mensaje);
+        
         $this->output->set_content_type('application/json')
                 ->set_output(json_encode(array('estado' => $estado, 'mensaje' => $mensaje)));
     }

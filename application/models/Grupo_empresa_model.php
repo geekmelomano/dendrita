@@ -3,9 +3,13 @@
 include_once('Abstract_model.php');
 
 /**
- * Description of Grupo_empresa_model
+ * La clase Grupo_empresa_model representa el modelo de datos de la tabla PUB_GRUPO_EMPRESA.
+ * Cada registro representa un grupo empresarial, que puede tener más de una empresa.
  *
- * @author Jonathan Munoz
+ * @author Jonathan Muñoz Aleman
+ * @copyright (c) 2016, Jonathan Muñoz Aleman
+ * @see Abstract_model
+ * @since 1.0
  */
 class Grupo_empresa_model extends Abstract_model {
     
@@ -28,6 +32,12 @@ class Grupo_empresa_model extends Abstract_model {
         $this->fechamodificacion = date('Y-m-d H:i:s', now('America/Lima'));
     }
 
+    /**
+     * Devuelve el código del grupo empresarial enviado como parámetro HTTP con el 
+     * método POST.
+     * 
+     * @return array Un arreglo que contiene el código del grupo empresarial.
+     */
     protected function _obtener_id() {
         return array('cod_empresa_grupo' => $this->input->post('cod_empresa_grupo'));
     }

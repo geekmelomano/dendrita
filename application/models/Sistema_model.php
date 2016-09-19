@@ -3,9 +3,13 @@
 include_once('Abstract_model.php');
 
 /**
- * Description of Sistema_model
+ * La clase Sistema_model representa el modelo de datos de la tabla PUB_SISTEMAS. 
+ * Cada registro representa un sistema del ERP.
  *
- * @author Jonathan Munoz
+ * @author Jonathan Muñoz Aleman
+ * @copyright (c) 2016, Jonathan Muñoz Aleman
+ * @see Abstract_model
+ * @since 1.0
  */
 class Sistema_model extends Abstract_model {
     
@@ -28,8 +32,9 @@ class Sistema_model extends Abstract_model {
     
     /**
      * Devuelve la lista de sistemas a los que tiene acceso el usuario especificado.
-     * @param type $usuario
-     * @return type
+     * 
+     * @param string $usuario El código del usuario
+     * @return array La lista de sistemas.
      */
     public function obtener_x_usuario($usuario) {
         return $this->db->query('CALL seg_lista_sistema_usuario(?)', $usuario)->result();
@@ -49,6 +54,11 @@ class Sistema_model extends Abstract_model {
         $this->fechamodificacion = date('Y-m-d H:i:s', now('America/Lima'));
     }
 
+    /**
+     * Devuelve el código del sistema enviado como parámetro HTTP con el método POST.
+     * 
+     * @return array Un arreglo que contiene el código del sistema.
+     */
     protected function _obtener_id() {
         return array('codsis' => $this->input->post('codsis'));
     }

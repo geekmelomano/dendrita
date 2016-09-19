@@ -3,9 +3,13 @@
 include_once('Abstract_model.php');
 
 /**
- * Description of Usuario_model
+ * La clase Usuario_model representa el modelo de datos de la tabla PUB_USUARIOS. 
+ * Cada registro representa un usuario del ERP.
  *
- * @author Jonathan Munoz
+ * @author Jonathan Muñoz Aleman
+ * @copyright (c) 2016, Jonathan Muñoz Aleman
+ * @see Abstract_model
+ * @since 1.0
  */
 class Usuario_model extends Abstract_model {
     
@@ -58,6 +62,11 @@ class Usuario_model extends Abstract_model {
         }
     }
 
+    /**
+     * Devuelve el código del usuario, enviado como parámetro HTTP con el método POST.
+     * 
+     * @return array Un arreglo que contiene el código del usuario.
+     */
     protected function _obtener_id() {
         return array('cod_usuario' => $this->input->post('cod_usuario'));
     }

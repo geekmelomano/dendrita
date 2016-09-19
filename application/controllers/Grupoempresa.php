@@ -1,43 +1,28 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
+include_once('CrudController.php');
+
 /**
- * Description of Grupoempresa
+ * La clase Grupoempresa controla peticiones relacionadas con la obtención y mantenimiento
+ * de la información de los grupos empresariales.
  *
- * @author Jonathan Munoz
+ * @author Jonathan Muñoz Aleman
+ * @copyright (c) 2016, Jonathan Muñoz Aleman
+ * @see CrudController
+ * @since 1.0
  */
-class Grupoempresa extends CI_Controller {
+class Grupoempresa extends CrudController {
     
     public function __construct() {
-        parent::__construct();
-        $this->load->model('grupo_empresa_model');
+        parent::__construct('grupo_empresa_model');
     }
     
+    /**
+     * Carga la vista de mantenimiento que utiliza una grilla.
+     */
     public function index() {
         $this->load->view('gridcrud', array('grid' => 'gridGruposEmpresas', 
             'funcion' => 'iniciarConfGruposEmpresas'));
-    }
-    
-    public function obtener() {
-        $grupos = json_encode($this->grupo_empresa_model->obtener_todos());
-        $this->output->set_content_type('application/json')->set_output($grupos);
-    }
-    
-    public function crear() {
-        $this->grupo_empresa_model->crear();
-        $grupo = json_encode($this->input->post());
-        $this->output->set_content_type('application/json')->set_output($grupo);
-    }
-    
-    public function editar() {
-        $this->grupo_empresa_model->editar();
-        $grupo = json_encode($this->input->post());
-        $this->output->set_content_type('application/json')->set_output($grupo);
-    }
-    
-    public function eliminar() {
-        $this->grupo_empresa_model->eliminar();
-        $grupo = json_encode($this->input->post());
-        $this->output->set_content_type('application/json')->set_output($grupo);
     }
     
 }

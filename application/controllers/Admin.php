@@ -1,14 +1,17 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Description of Configuracion
+ * La clase Admin controla peticiones relacionadas con el dashboard de administración
+ * del sistema.
  *
- * @author Jonathan Munoz
+ * @author Jonathan Muñoz Aleman
+ * @copyright (c) 2016, Jonathan Muñoz Aleman
+ * @since 1.0
  */
-class Configuracion extends CI_Controller {
+class Admin extends CI_Controller {
     
     public function index() {
-        $this->load->view('configuracion');
+        $this->load->view('admin');
     }
     
     public function confempresas() {

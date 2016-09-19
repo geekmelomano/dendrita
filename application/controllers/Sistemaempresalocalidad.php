@@ -1,50 +1,44 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
+include_once('CrudController.php');
+
 /**
- * Description of Sistemaempresalocalidad
+ * La clase Sistemaempresalocalidad controla peticiones relacionadas con la obtención 
+ * y mantenimiento de las empresas y localidades asignadas a los sistemas.
  *
- * @author Jonathan Munoz
+ * @author Jonathan Muñoz Aleman
+ * @copyright (c) 2016, Jonathan Muñoz Aleman
+ * @see CrudController
+ * @since 1.0
  */
-class Sistemaempresalocalidad extends CI_Controller {
+class Sistemaempresalocalidad extends CrudController {
     
     public function __construct() {
-        parent::__construct();
-        $this->load->model('sistema_empresa_localidad_model');
+        parent::__construct('sistema_empresa_localidad_model');
     }
     
+    /**
+     * Carga la vista de mantenimiento que utiliza grids.
+     */
     public function index() {
         $this->load->view('gridcrud', array(
             'grid' => 'gridSistemasEmpresas', 'funcion' => 'iniciarConfSistemasEmpresas'
         ));
     }
     
-    public function obtener() {
-        $sistemas_emprloc = json_encode($this->sistema_empresa_localidad_model->obtener_todos());
-        $this->output->set_content_type('application/json')->set_output($sistemas_emprloc);
-    }
-    
-    public function crear() {
-        $this->sistema_empresa_localidad_model->crear();
-        $sistema_emprloc = json_encode($this->input->post());
-        $this->output->set_content_type('application/json')->set_output($sistema_emprloc);
-    }
-    
-    public function editar() {
-        $this->sistema_empresa_localidad_model->editar();
-        $sistema_emprloc = json_encode($this->input->post());
-        $this->output->set_content_type('application/json')->set_output($sistema_emprloc);
-    }
-    
-    public function eliminar() {
-        $this->sistema_empresa_localidad_model->eliminar();
-        $sistema_emprloc = json_encode($this->input->post());
-        $this->output->set_content_type('application/json')->set_output($sistema_emprloc);
-    }
-    
+    /**
+     * Obtiene las empresas y localidades asignadas al sistema identificado con el 
+     * código enviado como parámetro HTTP, y responde con la lista en formato JSON.
+     */
     public function obtenerPorSistema() {
-        $filtro = $this->input->get('filter');
-        $sistema = $filtro['filters'][0]['value'];
-        $sistemas_emprloc = $this->sistema_empresa_localidad_model->obtener_x_sistema($sistema);
+        $codsis = $this->input->get('codsis');
+        
+        if (!isset($codsis)) {
+            log_message('info', 'No se ha especificado el código del sistema');
+            show_error('No se ha especificado el código del sistema', 500);
+        }
+        
+        $sistemas_emprloc = $this->modelo->obtener_x_sistema($codsis);
         $salida = json_encode($sistemas_emprloc);
         $this->output->set_content_type('application/json')->set_output($salida);
     }

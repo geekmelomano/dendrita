@@ -3,9 +3,13 @@
 include_once('Abstract_model.php');
 
 /**
- * Description of Localidad_model
+ * La clase Localidad_model representa el modelo de datos de la tabla PUB_LOCALIDAD.
+ * Cada registro representa una localidad donde se gestiona la contabilidad de una empresa.
  *
- * @author Jonathan Munoz
+ * @author Jonathan Muñoz Aleman
+ * @copyright (c) 2016, Jonathan Muñoz Aleman
+ * @see Abstract_model
+ * @since 1.0
  */
 class Localidad_model extends Abstract_model {
     
@@ -21,11 +25,13 @@ class Localidad_model extends Abstract_model {
     }
     
     /**
-     * Devuelve la lista de locales a los que tiene acceso el usuario para el 
+     * Devuelve la lista de localidades a los que tiene acceso el usuario para el 
      * sistema y empresa especificados.
+     * 
      * @param type $usuario Codigo del usuario
      * @param type $sistema Codigo del sistema
      * @param type $empresa Codigo de la empresa
+     * @return array La lista de localidades.
      */
     public function obtener_x_usuario_sistema_y_empresa($usuario, $sistema, $empresa) {
         return $this->db->query('CALL seg_lista_loc_emp_sistema_usu(?, ?, ?)', 
@@ -40,6 +46,12 @@ class Localidad_model extends Abstract_model {
         $this->fechamodificacion = date('Y-m-d H:i:s', now('America/Lima'));
     }
 
+    /**
+     * Devuelve el código de la localidad enviado como parámetro HTTP con el método
+     * POST.
+     * 
+     * @return array Un arreglo que contiene el código de la localidad.
+     */
     protected function _obtener_id() {
         return array('codloc' => $this->input->post('codloc'));
     }

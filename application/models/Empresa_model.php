@@ -3,9 +3,13 @@
 include_once('Abstract_model.php');
 
 /**
- * Description of Empresa_model
+ * La clase Empresa_model representa el modelo de datos de la tabla PUB_EMPRESAS.
+ * Cada registro representa a una empresa que puede acceder al ERP.
  *
- * @author Jonathan Munoz
+ * @author Jonathan Muñoz Aleman
+ * @copyright (c) 2016, Jonathan Muñoz Aleman
+ * @see Abstract_model
+ * @since 1.0
  */
 class Empresa_model extends Abstract_model {
     
@@ -68,8 +72,10 @@ class Empresa_model extends Abstract_model {
     /**
      * Devuelve la lista de empresas a los que tiene acceso el usuario para el 
      * sistema especificado.
-     * @param type $usuario Codigo del usuario
-     * @param type $sistema Codigo del sistema
+     * 
+     * @param string $usuario Codigo del usuario
+     * @param string $sistema Codigo del sistema
+     * @return array La lista de empresas.
      */
     public function obtener_x_usuario_y_sistema($usuario, $sistema) {
         return $this->db->query('CALL seg_lista_empresa_sistema_usu(?, ?)', 
@@ -77,8 +83,10 @@ class Empresa_model extends Abstract_model {
     }
 
     protected function _establecer_campos($accion) {
-        $this->agente_retencion = '0';
-        $this->agente_percepcion = '0';
+        if ($accion == 'C') {
+            $this->agente_retencion = '0';
+            $this->agente_percepcion = '0';
+        }
         
         $this->_establecer_campos_basicos();
         $this->usuario = $this->session->coduser;
@@ -88,6 +96,12 @@ class Empresa_model extends Abstract_model {
         $this->codgru = $grupo == '' ? NULL : $grupo;
     }
 
+    /**
+     * Devuelve el código de la empresa enviado como parámetro HTTP con el método
+     * POST.
+     * 
+     * @return array Un arreglo que contiene el código de la empresa.
+     */
     protected function _obtener_id() {
         return array('codemp' => $this->input->post('codemp'));
     }

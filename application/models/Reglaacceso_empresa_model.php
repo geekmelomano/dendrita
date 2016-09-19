@@ -3,9 +3,14 @@
 include_once('Abstract_model.php');
 
 /**
- * Description of Reglaacceso_empresa_model
+ * La clase Reglaacceso_empresa_model representa el modelo de datos de la tabla 
+ * PUB_REGLAACCESO_EMPRESA. Cada registro representa una regla de acceso para un
+ * sistema específico, la cual es puede ser asignada a los usuarios del ERP.
  *
- * @author Jonathan Munoz
+ * @author Jonathan Muñoz Aleman
+ * @copyright (c) 2016, Jonathan Muñoz Aleman
+ * @see Abstract_model
+ * @since 1.0
  */
 class Reglaacceso_empresa_model extends Abstract_model {
     
@@ -21,6 +26,12 @@ class Reglaacceso_empresa_model extends Abstract_model {
         parent::__construct('pub_reglaacceso_empresa');
     }
     
+    /**
+     * Devuelve la lista de reglas de acceso registradas para el sistema especificado.
+     * 
+     * @param string $sistema El código del sistema
+     * @return array La lista de reglas de acceso.
+     */
     public function obtener_x_sistema($sistema) {
         return $this->db->get_where('pub_reglaacceso_empresa', array('codsis' => $sistema))->result();
     }
@@ -34,6 +45,12 @@ class Reglaacceso_empresa_model extends Abstract_model {
         $this->fechamodificacion = date('Y-m-d H:i:s', now('America/Lima'));
     }
 
+    /**
+     * Devuelve el código de regla de acceso enviado como parámetro HTTP con el método
+     * POST.
+     * 
+     * @return array Un arreglo que contiene el código de la regla de acceso.
+     */
     protected function _obtener_id() {
         return array('cod_regla' => $this->input->post('cod_regla'));
     }

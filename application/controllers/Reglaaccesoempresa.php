@@ -1,17 +1,25 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
+include_once('CrudController.php');
+
 /**
- * Description of Reglaaccesoempresa
+ * La clase Reglaaccesoempresa controla peticiones relacionadas con la obtención y 
+ * mantenimiento de la información de las reglas de acceso.
  *
- * @author Jonathan Munoz
+ * @author Jonathan Muñoz Aleman
+ * @copyright (c) 2016, Jonathan Muñoz Aleman
+ * @see CrudController
+ * @since 1.0
  */
-class Reglaaccesoempresa extends CI_Controller {
+class Reglaaccesoempresa extends CrudController {
     
     public function __construct() {
-        parent::__construct();
-        $this->load->model('reglaacceso_empresa_model');
+        parent::__construct('reglaacceso_empresa_model');
     }
     
+    /**
+     * Carga la vista de detalle de grilla.
+     */
     public function index() {
         $this->load->view('gridcruddet', array(
             'nombre' => 'ReglasAcceso',
@@ -20,33 +28,19 @@ class Reglaaccesoempresa extends CI_Controller {
         ));
     }
     
-    public function obtener() {
-        $reglas = json_encode($this->reglaacceso_empresa_model->obtener_todos());
-        $this->output->set_content_type('application/json')->set_output($reglas);
-    }
-    
-    public function crear() {
-        $this->reglaacceso_empresa_model->crear();
-        $regla = json_encode($this->input->post());
-        $this->output->set_content_type('application/json')->set_output($regla);
-    }
-    
-    public function editar() {
-        $this->reglaacceso_empresa_model->editar();
-        $regla = json_encode($this->input->post());
-        $this->output->set_content_type('application/json')->set_output($regla);
-    }
-    
-    public function eliminar() {
-        $this->reglaacceso_empresa_model->eliminar();
-        $regla = json_encode($this->input->post());
-        $this->output->set_content_type('application/json')->set_output($regla);
-    }
-    
+    /**
+     * Obtiene las reglas de acceso del sistema identificado con el código enviado como
+     * parámetro HTTP, y responde con la lista en formato JSON.
+     */
     public function obtenerPorSistema() {
-        $filtro = $this->input->get('filter');
-        $sistema = $filtro['filters'][0]['value'];
-        $reglas = $this->reglaacceso_empresa_model->obtener_x_sistema($sistema);
+        $sistema = $this->input->get('codsis');
+        
+        if (!isset($sistema)) {
+            log_message('info', 'No se ha especificado el código del sistema');
+            show_error('No se ha especificado el código del sistema', 500);
+        }
+        
+        $reglas = $this->modelo->obtener_x_sistema($sistema);
         $salida = json_encode($reglas);
         $this->output->set_content_type('application/json')->set_output($salida);
     }

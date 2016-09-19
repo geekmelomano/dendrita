@@ -1,141 +1,191 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-<!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="es"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang="es"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9" lang="es"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="es"> <!--<![endif]-->
+<!DOCTYPE html>
+<html class="login-content" data-ng-app="mycofiApp">
     <head>
-	<meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-	<title>Inicio de Sesión</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="author" content="Jonathan Muñoz Aleman - geek.melomano@gmail.com">
+        <title>MyCofi - Inicio de Sesión</title>
+        
         <link rel="icon" href="favicon.ico">
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+        <!-- Vendor CSS -->
+        <link rel="stylesheet" href="vendors/bower_components/animate.css/animate.min.css">
+        <link rel="stylesheet" href="vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css">
+        <link rel="stylesheet" href="vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.css">
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="css/app.min.1.css">
+        <link rel="stylesheet" href="css/app.min.2.css">
         
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/kendo.common.min.css">
-        <link rel="stylesheet" href="css/kendo.bootstrap.min.css">
-        <link rel="stylesheet" href="css/kendo.bootstrap.mobile.min.css">
-        <link rel="stylesheet" href="css/login.css">
-        
-        <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+        <style>
+            body.login-content:before { background: #464646; }
+            header { margin-top: 100px; position: relative; }
+            .lc-block { margin-top: 25px; }
+        </style>
     </head>
-    
-    <body>
-        <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="errorLabel"></h4>
+
+    <body class="login-content" data-ng-controller="LoginCtrl as login">
+        <header class="text-center">
+            <img src="img/logo.png" alt="Logo de IMedia">
+        </header>
+
+        <!-- Formulario de inicio de sesion -->
+        <form id="l-login" class="lc-block" role="form" data-ng-class="{ 'toggled': !login.logueado }" data-ng-if="!login.logueado"
+                data-ng-submit="login.iniciarSesion()">
+            <fieldset>
+                <legend>Por favor, inicia sesión</legend>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+                <div class="input-group m-b-20">
+                    <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
+                    <div class="fg-line" data-ng-class="login.claseUsuario" 
+                            data-ng-class="{ 'has-feedback': lctrl.claseUsuario !== '' }">
+                        <input type="text" class="form-control" placeholder="Nombre de usuario" required autofocus
+                                data-ng-model="login.username" data-ng-blur="login.validarUsuario()">
+                        <span class="zmdi form-control-feedback" data-ng-class="login.iconoUsuario"></span>
                     </div>
-                    <div id="errorBody" class="modal-body"></div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <div class="text-left" data-ng-class="login.claseUsuario">
+                        <small class="help-block">{{ login.mensajeUsuario }}</small>
                     </div>
                 </div>
-            </div>
-        </div>
-        
-        <div class="container">
-            <div class="row">
-                <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-                    <span id="notificacion"></span>
-                     
-                    <main id="rootwizard">
-                        <nav class="navbar">
-                            <div class="navbar-inner">
-                                <ul>
-                                    <li><a href="#tabUsuario" data-toggle="tab">1. Inicio de Sesión</a></li>
-                                    <li><a href="#tabSistema" data-toggle="tab">2. Selección de Sistema</a></li>
-                                    <li><a href="#tabEmpresa" data-toggle="tab">3. Empresa y Localidad</a></li>
-                                </ul>
+
+                <div class="input-group m-b-20">
+                    <span class="input-group-addon"><i class="zmdi zmdi-key"></i></span>
+                    <div class="fg-line">
+                        <input type="password" class="form-control" placeholder="Contraseña" required 
+                               data-ng-model="login.password">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-login btn-primary btn-float">
+                    <i class="zmdi zmdi-arrow-forward"></i></button>
+            </fieldset>
+        </form>
+
+        <!-- Formulario de seleccion de sistema, empresa y localidad -->
+        <form id="l-register" class="form-horizontal lc-block" role="form" 
+                data-ng-class="{ 'toggled': login.logueado }" data-ng-if="login.logueado">
+            <fieldset>           
+                <legend>Hola, {{ login.nombreUsuario }}.<br>Por favor, {{ login.paso }}</legend>
+                
+                <div class="form-group">
+                    <label for="" class="col-sm-3 control-label">Sistema:</label>
+                    <div class="col-sm-9">
+                        <div class="fg-line">
+                            <div class="select">
+                                <select class="form-control" data-ng-change="login.listarEmpresas()" 
+                                        data-ng-model="login.sistema" 
+                                        data-ng-options="sist.nomsis for sist in login.sistemas"></select>
                             </div>
-                        </nav>
-
-                        <div class="tab-content">
-                            <section id="tabUsuario" class="tab-pane">
-                                <form id="frmUsuario" class="form-signin">
-                                    <h2 class="form-signin-heading">Por favor, inicie sesión</h2>
-                                    
-                                    <label for="inputUsuario" class="sr-only">Nombre de usuario</label>
-                                    <div id="grupoUsuario" class="input-group">
-                                        <div class="input-group-addon">
-                                            <span class="glyphicon glyphicon-user"></span>
-                                        </div>
-                                        <input type="text" id="inputUsuario" class="form-control" placeholder="Nombre de usuario" required autofocus>
-                                    </div>
-                                    
-                                    <label for="inputClave" class="sr-only">Contraseña</label>
-                                    <div id="grupoClave" class="input-group">
-                                        <div class="input-group-addon">
-                                            <span class="glyphicon glyphicon-lock"></span>
-                                        </div>
-                                        <input type="password" id="inputClave" class="form-control" placeholder="Contraseña" required>
-                                    </div>
-                                    
-                                    <button id="btnLoginContinuar" class="btn btn-lg btn-primary btn-block" 
-                                            type="submit" data-loading-text="Iniciando sesión...">
-                                        <span class="glyphicon glyphicon-log-in"></span> Continuar
-                                    </button>
-                                </form>
-                            </section>
-
-                            <section id="tabSistema" class="tab-pane">
-                                <h2>A continuación, seleccione un sistema</h2>
-                                <div id="listaSistemas"></div>
-                            </section>
-
-                            <section id="tabEmpresa" class="tab-pane">
-                                <form id="frmEmpresa" class="form-horizontal">
-                                    <h2 class="form-signin-heading">Finalmente, elija una empresa y local</h2>
-                                    <div class="form-group">
-                                        <label for="inputEmpresa" class="col-sm-2 control-label">Empresa:</label>
-                                        <div class="col-sm-10">
-                                            <input id="inputEmpresa" style="width:350px">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputLocal" class="col-sm-2 control-label">Localidad:</label>
-                                        <div class="col-sm-10">
-                                            <input id="inputLocal" style="width:350px" disabled="disabled">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-2 col-sm-10">
-                                            <button id="btnLoginIngresar" type="submit" class="btn btn-lg btn-primary" 
-                                                    disabled="true" data-loading-text="Cargando dashboard...">
-                                                <span class="glyphicon glyphicon-ok"></span> Ingresar ahora
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </section>
                         </div>
-                    </main>
-                    
-                    <div id="areaNotificacion"></div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>');</script>
+                
+                <div class="form-group" data-ng-hide="!login.sistema">
+                    <label for="" class="col-sm-3 control-label">Empresa:</label>
+                    <div class="col-sm-9">
+                        <div class="fg-line">
+                            <div class="select">
+                                <select class="form-control" data-ng-change="login.listarLocalidades()" 
+                                        data-ng-model="login.empresa" 
+                                        data-ng-options="empr.nomemp for empr in login.empresas"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group" data-ng-hide="!login.empresa">
+                    <label for="" class="col-sm-3 control-label">Localidad:</label>
+                    <div class="col-sm-9">
+                        <div class="fg-line">
+                            <div class="select">
+                                <select class="form-control" data-ng-model="login.localidad" 
+                                        data-ng-options="local.nomloc for local in login.localidades"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-        <script src="js/vendor/bootstrap.min.js"></script>
-        <script src="js/vendor/kendo.all.min.js"></script>
-        <script src="js/vendor/jquery.bootstrap.wizard.min.js"></script>
-        <script src="js/plugins.js"></script>
-        <script src="js/main.js"></script>
-        <script src="js/login.js"></script>
-        
-        <script type="text/x-kendo-template" id="tmplSistema">
-            <div class="sistema">
-                <img src="img/sistemas/#: imagen #" alt="Imagen de #: nomsis #">
-                <h3>#: nomsis #</h3>
+                <button type="submit" class="btn btn-login btn-primary btn-float">
+                    <i class="zmdi zmdi-arrow-forward"></i></button>
+            </fieldset>
+
+            <ul class="login-navigation">
+                <li class="bgm-bluegray" data-block="#l-login" data-ng-click="login.irAAdmin()" 
+                        data-ng-hide="!login.esAdministrador">Administración</li>
+                <li class="bgm-red" data-block="#l-login" data-ng-click="login.cerrarSesion()">Cerrar sesión</li>
+            </ul>
+        </form>
+
+        <!-- Older IE warning message -->
+        <!--[if lt IE 9]>
+            <div class="ie-warning">
+                <h1 class="c-white">Warning!!</h1>
+                <p>You are using an outdated version of Internet Explorer, please upgrade <br/>to any of the following web browsers to access this website.</p>
+                <div class="iew-container">
+                    <ul class="iew-download">
+                        <li>
+                            <a href="http://www.google.com/chrome/">
+                                <img src="img/browsers/chrome.png" alt="">
+                                <div>Chrome</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.mozilla.org/en-US/firefox/new/">
+                                <img src="img/browsers/firefox.png" alt="">
+                                <div>Firefox</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://www.opera.com">
+                                <img src="img/browsers/opera.png" alt="">
+                                <div>Opera</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.apple.com/safari/">
+                                <img src="img/browsers/safari.png" alt="">
+                                <div>Safari</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">
+                                <img src="img/browsers/ie.png" alt="">
+                                <div>IE (New)</div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <p>Sorry for the inconvenience!</p>
             </div>
-        </script>
+        <![endif]-->
+
+        <!-- Core -->
+        <script src="vendors/bower_components/jquery/dist/jquery.min.js"></script>
+
+        <!-- Angular -->
+        <script src="vendors/bower_components/angular/angular.min.js"></script>
+        <script src="vendors/bower_components/angular-animate/angular-animate.min.js"></script>
+        <script src="vendors/bower_components/angular-resource/angular-resource.min.js"></script>
+
+        <!-- Common Vendors -->
+        <script src="vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.min.js"></script>
+        <script src="vendors/bootstrap-growl/bootstrap-growl.min.js"></script>
+
+        <!-- Placeholder for IE9 -->
+        <!--[if IE 9 ]>
+            <script src="vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js"></script>
+        <![endif]-->
+                
+        <!-- App level -->
+        <script src="js/login.js"></script>
+        <script src="js/controllers/login.js"></script>
+        <script src="js/services.js"></script>
+        <script src="js/services/login.js"></script>
+
+        <!-- Template Modules -->
+        <script src="js/modules.js"></script>
     </body>
 </html>

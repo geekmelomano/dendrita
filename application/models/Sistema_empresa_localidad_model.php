@@ -3,9 +3,14 @@
 include_once('Abstract_model.php');
 
 /**
- * Description of Sistema_empresa_localidad_model
+ * La clase Sistema_empresa_localidad_model representa el modelo de datos de la tabla 
+ * PUB_SISTEMA_EMPRESA_LOCALIDAD. Cada registro representa una combinación de empresa
+ * y localidad asignados a un sistema específico.
  *
- * @author Jonathan Munoz
+ * @author Jonathan Muñoz Aleman
+ * @copyright (c) 2016, Jonathan Muñoz Aleman
+ * @see Abstract_model
+ * @since 1.0
  */
 class Sistema_empresa_localidad_model extends Abstract_model {
     
@@ -28,6 +33,12 @@ class Sistema_empresa_localidad_model extends Abstract_model {
         parent::__construct('pub_sistema_empresa_localidad');
     }
     
+    /**
+     * Devuelve la lista de empresas y localidades asignadas al sistema especificado.
+     * 
+     * @param string $sistema El código del sistema.
+     * @return array La lista de empresas y localidades asignadas al sistema.
+     */
     public function obtener_x_sistema($sistema) {
         return $this->db->get_where('pub_sistema_empresa_localidad', 
                 array('codsis' => $sistema))->result();
@@ -49,6 +60,14 @@ class Sistema_empresa_localidad_model extends Abstract_model {
         $this->flag_niveles = $this->input->post('flag_niveles');
     }
 
+    /**
+     * Devuelve los datos de la clave primaria, la cual está compuesta por:
+     *  - El código del sistema
+     *  - El código de la empresa
+     *  - El código de la localidad
+     * 
+     * @return array Los datos de la clave primaria.
+     */
     protected function _obtener_id() {
         return array(
             'codsis' => $this->input->post('codsis'),
