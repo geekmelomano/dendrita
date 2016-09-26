@@ -1,0 +1,28 @@
+
+<header id="header" data-current-skin={{dashboard.currentSkin}} data-ng-controller="HeaderCtrl as header" 
+        data-ng-include="'template/header.html'"></header>
+
+<section id="main">
+    <aside id="sidebar" data-ng-class="{ 'toggled': dashboard.sidebarToggle.left === true }" 
+            data-ng-include="'template/sidebar-left.html'"></aside>
+
+    <section id="content">
+        <div class="container">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Nueva Empresa</h2>
+                    <ul class="actions">
+                        <li><a href=""><i class="zmdi zmdi-refresh"></i></a></li>
+                        <li><a href=""><i class="zmdi zmdi-plus"></i></a></li>
+                    </ul>
+                </div>
+                
+                <div class="card-body">
+                    <p>Lorem ipsum dolor sit amet consectetuer adipisciing elit</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
+
+<footer id="footer" data-ng-include="'template/footer.html'"></footer>

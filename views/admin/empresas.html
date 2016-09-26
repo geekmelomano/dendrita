@@ -1,0 +1,59 @@
+
+<header id="header" data-current-skin={{dashboard.currentSkin}} data-ng-controller="HeaderCtrl as header" 
+        data-ng-include="'template/header.html'"></header>
+
+<section id="main">
+    <aside id="sidebar" data-ng-class="{ 'toggled': dashboard.sidebarToggle.left === true }" 
+            data-ng-include="'template/sidebar-left.html'"></aside>
+
+    <section id="content">
+        <div class="container">
+            <div class="card">
+                <div class="card-header ch-alt">
+                    <h2>Mantenimiento de Empresas<small>Pulse el botón azul para registrar una nueva empresa</small></h2>
+                    <ul class="actions">
+                        <li><a href=""><i class="zmdi zmdi-refresh"></i></a></li>
+                        <li><a href=""><i class="zmdi zmdi-download"></i></a></li>
+                    </ul>
+                    <button class="btn bgm-blue btn-float waves-effect" data-ui-sref="nuevaempresa" 
+                            data-ng-click="dashboard.sidebarStat($event)"><i class="zmdi zmdi-plus"></i></button>
+                </div>
+                
+                <div class="card-body" style="margin-top: 25px">
+                    <div class="table-responsive">
+                        <table data-ng-table="empresa.lista" data-show-filter="true" class="table table-striped table-vmiddle">
+                            <colgroup>
+                                <col style="width: 100px">
+                                <col>
+                                <col style="width: 200px">
+                                <col style="width: 200px">
+                                <col style="width: 150px">
+                            </colgroup>
+                            
+                            <tr data-ng-repeat="e in $data">
+                                <td data-title="'Código'" data-sortable="'codemp'" data-filter="{codemp: 'text'}">
+                                    {{ e.codemp }}</td>
+                                <td data-title="'Nombre'" data-sortable="'nomemp'" data-filter="{nomemp: 'text'}">
+                                    {{ e.nomemp }}</td>
+                                <td data-title="'R.U.C.'" data-sortable="'ruc'" data-filter="{ruc: 'text'}">
+                                    {{ e.ruc }}</td>
+                                <td data-title="'Estado'" data-sortable="'estado'" data-filter="{estado: 'select'}" 
+                                        data-filter-data="empresa.estados">
+                                    {{ e.estado === 'S' ? 'ACTIVO' : 'CERRADO' }}
+                                </td>
+                                <td data-title="'Acciones'">
+                                    <button type="button" class="btn btn-default" data-ng-click="e.$edit = true">
+                                        <i class="zmdi zmdi-edit"></i></button>
+                                    <button type="button" class="btn btn-danger" data-ng-click="e.$edit = false">
+                                        <i class="zmdi zmdi-delete"></i></button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
+
+<footer id="footer" data-ng-include="'template/footer.html'"></footer>

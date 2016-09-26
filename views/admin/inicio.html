@@ -1,0 +1,10 @@
+
+<header id="header" data-current-skin={{dashboard.currentSkin}} data-ng-controller="HeaderCtrl as header" 
+        data-ng-include="'template/header.html'" ></header>
+
+<section id="main">
+    <aside id="sidebar" data-ng-class="{ 'toggled': dashboard.sidebarToggle.left === true }" 
+            data-ng-include="'template/sidebar-left.html'"></aside>
+</section>
+
+<footer id="footer" data-ng-include="'template/footer.html'"></footer>

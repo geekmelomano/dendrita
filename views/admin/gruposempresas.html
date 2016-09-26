@@ -1,0 +1,34 @@
+
+<header id="header" data-current-skin={{dashboard.currentSkin}} data-ng-controller="HeaderCtrl as header" 
+        data-ng-include="'template/header.html'"></header>
+
+<section id="main">
+    <aside id="sidebar" data-ng-class="{ 'toggled': dashboard.sidebarToggle.left === true }" 
+            data-ng-include="'template/sidebar-left.html'"></aside>
+
+    <section id="content">
+        <div class="container">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Mantenimiento de Grupos Empresariales</h2>
+                    <ul class="actions">
+                        <li><a href=""><i class="zmdi zmdi-refresh"></i></a></li>
+                        <li><a href=""><i class="zmdi zmdi-plus"></i></a></li>
+                    </ul>
+                </div>
+                
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table data-ng-table="grupoCtrl.lista" class="table table-striped table-vmiddle">
+                            <tr data-ng-repeat="grupo in $data">
+                                <td data-title="'Código'" data-filter="{cod_empresa_grupo: 'text'}" data-sortable="'cod_empresa_grupo'">{{ grupo.cod_empresa_grupo }}</td>
+                                <td data-title="'Nombre'" data-filter="{nom_empresa_grupo: 'text'}" data-sortable="'nom_empresa_grupo'">{{ grupo.nom_empresa_grupo }}</td>
+                                <td data-title="'Observación'" data-filter="{observacion: 'text'}" data-sortable="'observacion'">{{ grupo.observacion }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
