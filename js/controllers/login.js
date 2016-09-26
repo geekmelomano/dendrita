@@ -4,7 +4,6 @@
 //=================================================
 
 mycofiApp.controller('LoginCtrl', [
-    '$http',
     '$window',
     'growlService', 
     'usuarioService', 
@@ -15,7 +14,7 @@ mycofiApp.controller('LoginCtrl', [
     LoginCtrl
 ]);
 
-function LoginCtrl($http, $window, growlService, usuarioService, sesionService, 
+function LoginCtrl($window, growlService, usuarioService, sesionService, 
         sistemaService, empresaService, localidadService) {
     var vm = this;
     vm.logueado = false;
@@ -68,6 +67,10 @@ function LoginCtrl($http, $window, growlService, usuarioService, sesionService,
                 vm.esAdministrador = (respuesta.data.usuario.tipo_usuario === '99');
                 vm.paso = 'selecciona un sistema';
                 vm.listarSistemas();
+                
+                localStorage.setItem('coduser', respuesta.data.usuario.cod_usuario);
+                localStorage.setItem('nomuser', respuesta.data.usuario.nom_usuario);
+                localStorage.setItem('tipo_usuario', respuesta.data.usuario.tipo_usuario);
             } else growlService.growl(respuesta.data.mensaje, respuesta.data.estado);
         }, function(respuesta) {
             vm.mostrarError('Ha ocurrido un error al intentar iniciar la sesión.', respuesta);
@@ -97,6 +100,8 @@ function LoginCtrl($http, $window, growlService, usuarioService, sesionService,
                     vm.empresa = false;
                     vm.localidades = [];
                     vm.localidad = false;
+                    
+                    localStorage.clear();
                 }, function(respuesta) {
                     vm.mostrarError('Ha ocurrido un error al intentar cerrar la sesión.', respuesta);
                 });
