@@ -59,7 +59,8 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-login btn-primary btn-float">
+                <button type="submit" class="btn btn-login btn-primary btn-float" 
+                        data-ng-hide="login.username === '' || login.password === '' || login.claseUsuario !== 'has-success'">
                     <i class="zmdi zmdi-arrow-forward"></i></button>
             </fieldset>
         </form>
@@ -108,7 +109,7 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-login btn-primary btn-float">
+                <button type="submit" class="btn btn-login btn-primary btn-float" data-ng-hide="!login.localidad">
                     <i class="zmdi zmdi-arrow-forward"></i></button>
             </fieldset>
 

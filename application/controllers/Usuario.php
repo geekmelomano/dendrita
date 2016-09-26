@@ -24,13 +24,22 @@ class Usuario extends CrudController {
         $this->load->view('gridcrud', array('grid' => 'gridUsuarios', 'funcion' => 'iniciarConfUsuarios'));
     }
     
+    /**
+     * Valida que el usuario enviado como parámetros HTTP con el método POST, exista
+     * y se encuentre activo.
+     */
     public function validar() {
         $datos = json_decode(file_get_contents('php://input'));
         $usuario = $this->modelo->obtener_x_id(array('cod_usuario' => $datos->cod_usuario));
         
         if (isset($usuario)) {
-            $estado = 'success';
-            $mensaje = 'Se ha conseguido validar al usuario de manera satisfactoria.';
+            if ($usuario->estado == 'A') {
+                $estado = 'success';
+                $mensaje = 'Se ha conseguido validar al usuario de manera satisfactoria.';
+            } else {
+                $estado = 'warning';
+                $mensaje = 'El usuario no se encuentra activo actualmente.';
+            }
         } else {
             $estado = 'warning';
             $mensaje = 'El nombre de usuario especificado no se encuentra registrado.';
