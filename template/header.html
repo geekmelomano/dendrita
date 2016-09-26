@@ -1,0 +1,68 @@
+
+<ul class="header-inner clearfix">
+    <li id="menu-trigger" data-target="mainmenu" data-toggle-sidebar data-model-left="dashboard.sidebarToggle.left" 
+            data-ng-class="{ 'open': dashboard.sidebarToggle.left === true }">
+        <div class="line-wrap">
+            <div class="line top"></div>
+            <div class="line center"></div>
+            <div class="line bottom"></div>  
+        </div>
+    </li>
+
+    <li class="logo hidden-xs">
+        <a data-ui-sref="inicio" data-ng-click="dashboard.sidebarStat($event)">Administración</a>
+    </li>
+
+    <li class="pull-right">
+        <ul class="top-menu">
+            <li id="toggle-width">
+                <div class="toggle-switch">
+                    <input id="tw-switch" type="checkbox" hidden="hidden" data-change-layout="dashboard.layoutType">
+                    <label for="tw-switch" class="ts-helper"></label>
+                </div>
+            </li>
+
+            <li id="top-search">
+                <a href="" data-ng-click="header.openSearch()"><i class="tm-icon zmdi zmdi-search"></i></a>
+            </li>
+
+            <li class="dropdown" uib-dropdown>
+                <a href="" uib-dropdown-toggle>
+                    <i class="tm-icon zmdi zmdi-more-vert"></i>
+                </a>
+                
+                <ul class="dropdown-menu dm-icon pull-right">
+                    <li class="skin-switch hidden-xs">
+                        <span class="ss-skin bgm-{{ w }}" data-ng-click="dashboard.skinSwitch(w)" 
+                                data-ng-repeat="w in dashboard.skinList | limitTo : 6"></span>
+                    </li>
+                    <li class="divider hidden-xs"></li>
+                    <li class="hidden-xs">
+                        <a href="" data-ng-click="header.fullScreen()">
+                            <i class="zmdi zmdi-fullscreen"></i> Pantalla Completa</a>
+                    </li><!--
+                    <li>
+                        <a href="" data-ng-click="header.clearLocalStorage()">
+                            <i class="zmdi zmdi-delete"></i> Clear Local Storage</a>
+                    </li>
+                    <li><a href=""><i class="zmdi zmdi-face"></i> Privacy Settings</a></li>
+                    <li><a href=""><i class="zmdi zmdi-settings"></i> Other Settings</a></li>-->
+                </ul>
+            </li>
+<!--            
+            <li class="hidden-xs" data-target="chat" data-toggle-sidebar 
+                    data-model-right="dashboard.sidebarToggle.right" 
+                    data-ng-class="{ 'open': dashboard.sidebarToggle.right === true }">
+                <a href=""><i class="tm-icon zmdi zmdi-comment-alt-text"></i></a>
+            </li>-->
+        </ul>
+    </li>
+</ul>
+
+<!-- Top Search Content -->
+<div id="top-search-wrap">
+    <div class="tsw-inner">
+        <i id="top-search-close" class="zmdi zmdi-arrow-left" data-ng-click="header.closeSearch()"></i>
+        <input type="text">
+    </div>
+</div>

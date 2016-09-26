@@ -1,0 +1,31 @@
+
+<div class="sidebar-inner c-overflow">    
+    <div class="profile-menu">
+        <a href="" toggle-submenu>
+            <div class="profile-pic"><img data-ng-src="img/profile-pics/{{ dashboard.coduser }}.jpg" alt=""></div>
+            <div class="profile-info">{{ dashboard.nomuser }}
+                <i class="zmdi zmdi-caret-down"></i>
+            </div>
+        </a>
+        <ul class="main-menu">
+            <li>
+                <a data-ui-sref="pages.profile.profile-about" data-ng-click="dashboard.sidebarStat($event)">
+                    <i class="zmdi zmdi-account"></i> Ver Perfil</a>
+            </li><!--
+            <li><a href=""><i class="zmdi zmdi-input-antenna"></i> Configuración de Privacidad</a></li>
+            <li><a href=""><i class="zmdi zmdi-settings"></i> Configuración</a></li>-->
+            <li><a href=""><i class="zmdi zmdi-time-restore"></i> Cerrar sesión</a></li>
+        </ul>
+    </div>
+    
+    <ul class="main-menu">
+        <li data-ui-sref-active="active">
+            <a data-ui-sref="gruposempresas" data-ng-click="dashboard.sidebarStat($event)">
+                <i class="zmdi zmdi-assignment-account"></i> Grupos Empresariales</a>
+        </li>
+        <li data-ui-sref-active="active">
+            <a data-ui-sref="empresas" data-ng-click="dashboard.sidebarStat($event)">
+                <i class="zmdi zmdi-case"></i> Gestión de Empresas</a>
+        </li>
+    </ul>
+</div>
