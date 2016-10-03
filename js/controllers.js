@@ -73,7 +73,7 @@ mycofiApp.controller('DashboardCtrl', ['$state', '$timeout', function($state, $t
 // =========================================================================
 // Header
 // =========================================================================
-mycofiApp.controller('HeaderCtrl', function($timeout/*, messageService*/) {
+mycofiApp.controller('HeaderCtrl', function($timeout, $window/*, messageService*/) {
     
     // Top Search
     this.openSearch = function() {
@@ -119,22 +119,9 @@ mycofiApp.controller('HeaderCtrl', function($timeout/*, messageService*/) {
             angular.element('#notifications').addClass('empty');
         }, (z * 150) + 200);
     };
-
-    // Clear Local Storage
-    this.clearLocalStorage = function() {
-        //Get confirmation, if confirmed clear the localStorage
-        swal({   
-            title: "Are you sure?",   
-            text: "All your saved localStorage values will be removed",   
-            type: "warning",   
-            showCancelButton: true,   
-            confirmButtonColor: "#F44336",   
-            confirmButtonText: "Yes, delete it!",   
-            closeOnConfirm: false 
-        }, function(){
-            localStorage.clear();
-            swal("Done!", "localStorage is cleared", "success"); 
-        });
+    
+    this.irAInicio = function() {
+        $window.location.href = 'http://localhost/mycofi';
     };
 
     //Fullscreen View

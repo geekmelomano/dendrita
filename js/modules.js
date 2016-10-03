@@ -111,3 +111,17 @@ mycofiApp.directive('toggleSubmenu', function() {
         }
     };
 });
+
+// =========================================================================
+// INPUT MASK
+// =========================================================================
+
+mycofiApp.directive('inputMask', function(){
+    return {
+        restrict: 'A',
+        scope: { inputMask: '=' },
+        link: function(scope, element){
+            element.mask(scope.inputMask.mask);
+        }
+    };
+});

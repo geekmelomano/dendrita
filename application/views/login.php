@@ -65,7 +65,7 @@
             </fieldset>
         </form>
 
-        <!-- Formulario de seleccion de sistema, empresa y localidad -->
+        <!-- Formulario de seleccion de sistema, empresa y localidad 
         <form id="l-register" class="form-horizontal lc-block" role="form" 
                 data-ng-class="{ 'toggled': login.logueado }" data-ng-if="login.logueado">
             <fieldset>           
@@ -119,47 +119,48 @@
                 <li class="bgm-red" data-block="#l-login" data-ng-click="login.cerrarSesion()">Cerrar sesión</li>
             </ul>
         </form>
-
+-->
         <!-- Older IE warning message -->
         <!--[if lt IE 9]>
             <div class="ie-warning">
-                <h1 class="c-white">Warning!!</h1>
-                <p>You are using an outdated version of Internet Explorer, please upgrade <br/>to any of the following web browsers to access this website.</p>
+                <h1 class="c-white">Advertencia!!</h1>
+                <p>Usted está utilizando una versión antigua de Internet Explorer, por favor, actualice<br>
+                    a cualquier de los siguientes navegadores web para acceder a esta aplicación web.</p>
                 <div class="iew-container">
                     <ul class="iew-download">
                         <li>
                             <a href="http://www.google.com/chrome/">
-                                <img src="img/browsers/chrome.png" alt="">
+                                <img src="img/browsers/chrome.png" alt="Chrome">
                                 <div>Chrome</div>
                             </a>
                         </li>
                         <li>
                             <a href="https://www.mozilla.org/en-US/firefox/new/">
-                                <img src="img/browsers/firefox.png" alt="">
+                                <img src="img/browsers/firefox.png" alt="Firefox">
                                 <div>Firefox</div>
                             </a>
                         </li>
                         <li>
                             <a href="http://www.opera.com">
-                                <img src="img/browsers/opera.png" alt="">
+                                <img src="img/browsers/opera.png" alt="Opera">
                                 <div>Opera</div>
                             </a>
                         </li>
                         <li>
                             <a href="https://www.apple.com/safari/">
-                                <img src="img/browsers/safari.png" alt="">
+                                <img src="img/browsers/safari.png" alt="Safari">
                                 <div>Safari</div>
                             </a>
                         </li>
                         <li>
                             <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">
-                                <img src="img/browsers/ie.png" alt="">
-                                <div>IE (New)</div>
+                                <img src="img/browsers/ie.png" alt="IE (Nuevo)">
+                                <div>IE (Nuevo)</div>
                             </a>
                         </li>
                     </ul>
                 </div>
-                <p>Sorry for the inconvenience!</p>
+                <p>¡Lo sentimos por los inconvenientes ocasionados!</p>
             </div>
         <![endif]-->
 

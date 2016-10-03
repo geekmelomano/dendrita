@@ -22,6 +22,11 @@
         <!-- CSS -->
         <link rel="stylesheet" href="css/app.min.1.css" id="app-level">
         <link rel="stylesheet" href="css/app.min.2.css">
+        
+        <style>
+            .card-body fieldset { margin-bottom: 20px }
+            .card-body legend { border-bottom: none; font-size: 16px }
+        </style>
     </head>
 
     <body data-ng-class="{ 'sw-toggled': dashboard.layoutType === '1'}">

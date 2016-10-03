@@ -1,5 +1,5 @@
 
-<header id="header" data-current-skin={{dashboard.currentSkin}} data-ng-controller="HeaderCtrl as header" 
+<header id="header" data-current-skin="{{dashboard.currentSkin}}" data-ng-controller="HeaderCtrl as header" 
         data-ng-include="'template/header.html'"></header>
 
 <section id="main">
@@ -9,16 +9,221 @@
     <section id="content">
         <div class="container">
             <div class="card">
-                <div class="card-header">
-                    <h2>Nueva Empresa</h2>
+                <div class="card-header ch-alt">
+                    <h2>Detalles de la Empresa
+                        <small>Por favor, complete la información solicitada en el formulario.</small>
+                    </h2>
                     <ul class="actions">
-                        <li><a href=""><i class="zmdi zmdi-refresh"></i></a></li>
-                        <li><a href=""><i class="zmdi zmdi-plus"></i></a></li>
+                        <li><a href="" data-ng-click="empresa.inicializar()"><i class="zmdi zmdi-plus"></i></a></li>
+                        <li><a href="" data-ui-sref="empresas"><i class="zmdi zmdi-close"></i></a></li>
                     </ul>
                 </div>
                 
-                <div class="card-body">
-                    <p>Lorem ipsum dolor sit amet consectetuer adipisciing elit</p>
+                <div class="card-body card-padding">
+                    <form name="frmEmpresa" class="form-horizontal" role="form" data-ng-submit="empresa.guardar()">
+                        <fieldset>
+                            <legend><i class="zmdi zmdi-account"></i> Datos Generales</legend>
+                            
+                            <div class="form-group">
+                                <label for="codemp" class="col-sm-2 control-label">Código Interno:</label>
+                                <div class="col-sm-2">
+                                    <div class="fg-line">
+                                        <input id="codemp" type="text" class="form-control input-sm" 
+                                               placeholder="Autogenerado" disabled 
+                                               data-ng-model="empresa.instancia.codemp">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="nomemp" class="col-sm-2 control-label">Razón Social:</label>
+                                <div class="col-sm-6">
+                                    <div class="fg-line">
+                                        <input id="nomemp" name="nomemp" type="text" class="form-control input-sm" 
+                                               placeholder="Razón social" required autofocus 
+                                               data-ng-model="empresa.instancia.nomemp">
+                                    </div>
+                                </div>
+                                <label for="ruc" class="col-sm-1 control-label">R.U.C.:</label>
+                                <div class="col-sm-2">
+                                    <div class="fg-line">
+                                        <input id="ruc" name="ruc" type="text" class="form-control input-sm" required 
+                                                data-input-mask="{ mask: '00000000000' }" placeholder="Ej.: 10436844617"  
+                                                data-ng-model="empresa.instancia.ruc">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="codgru" class="col-sm-2 control-label">Grupo Empresarial:</label>
+                                <div class="col-sm-6">
+                                    <div class="fg-line">
+                                        <div class="select">
+                                            <select id="codgru" class="form-control input-sm" 
+                                                    data-ng-model="empresa.instancia.codgru"
+                                                    data-ng-options="g.nom_empresa_grupo for g in empresa.grupos track by g.cod_empresa_grupo">
+                                                <option value="">-- Seleccione --</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <label for="estado" class="col-sm-1 control-label">Estado:</label>
+                                <div class="col-sm-2">
+                                    <div class="fg-line">
+                                        <div class="select">
+                                            <select id="estado" class="form-control input-sm" required 
+                                                    data-ng-model="empresa.instancia.estado" 
+                                                    data-ng-options="e.title for e in empresa.estados track by e.id"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        
+                        <fieldset>
+                            <legend><i class="zmdi zmdi-map"></i> Direcciones</legend>
+                            
+                            <div class="form-group">
+                                <label for="dirfis" class="col-sm-2 control-label">Dirección Fiscal:</label>
+                                <div class="col-sm-9">
+                                    <div class="fg-line">
+                                        <input id="dirfis" type="text" class="form-control input-sm" 
+                                               placeholder="Dirección fiscal" data-ng-model="empresa.instancia.dirfis">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="dirleg" class="col-sm-2 control-label">Dirección Legal:</label>
+                                <div class="col-sm-9">
+                                    <div class="fg-line">
+                                        <input id="dirleg" type="text" class="form-control input-sm"
+                                               placeholder="Dirección legal" data-ng-model="empresa.instancia.dirleg">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ubigeo" class="col-sm-2 control-label">Ubigeo:</label>
+                                <div class="col-sm-2">
+                                    <div class="fg-line">
+                                        <input id="ubigeo" type="text" class="form-control input-sm" 
+                                               placeholder="Ej. 140130" data-input-mask="{ mask: '000000' }" 
+                                               data-ng-model="empresa.instancia.ubigeo">
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        
+                        <fieldset>
+                            <legend><i class="zmdi zmdi-account-box-o"></i> Representante Legal</legend>
+                            
+                            <div class="form-group">
+                                <label for="dni_representante" class="col-sm-2 control-label">D.N.I.:</label>
+                                <div class="col-sm-2">
+                                    <div class="fg-line">
+                                        <input id="dni_representante" type="text" class="form-control input-sm"
+                                                data-input-mask="{ mask: '00000000' }" placeholder="Ej. 43684461"
+                                                data-ng-model="empresa.instancia.dni_representante">
+                                    </div>
+                                </div>
+                                <label for="nom_representante" class="col-sm-2 control-label">Apellidos y Nombres:</label>
+                                <div class="col-sm-5">
+                                    <div class="fg-line">
+                                        <input id="nom_representante" type="text" class="form-control input-sm"
+                                               placeholder="Apellidos y nombres" 
+                                               data-ng-model="empresa.instancia.nom_representante">
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        
+                        <fieldset>
+                            <legend><i class="zmdi zmdi-store"></i> Datos del Negocio</legend>
+                            
+                            <div class="form-group">
+                                <label for="tipo_negocio" class="col-sm-2 control-label">Tipo de Negocio:</label>
+                                <div class="col-sm-3">
+                                    <div class="fg-line">
+                                        <input id="tipo_negocio" type="text" class="form-control input-sm"
+                                               placeholder="Tipo de negocio" 
+                                               data-ng-model="empresa.instancia.tipo_negocio">
+                                    </div>
+                                </div>
+                                <label for="giro_negocio" class="col-sm-2 control-label">Giro de Negocio:</label>
+                                <div class="col-sm-4">
+                                    <div class="fg-line">
+                                        <input id="giro_negocio" type="text" class="form-control input-sm"
+                                               placeholder="Giro de negocio" 
+                                               data-ng-model="empresa.instancia.giro_negocio">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="reg_patronal" class="col-sm-2 control-label">Registro Patronal:</label>
+                                <div class="col-sm-3">
+                                    <div class="fg-line">
+                                        <input id="reg_patronal" type="text" class="form-control input-sm"
+                                               placeholder="Registro patronal" 
+                                               data-ng-model="empresa.instancia.reg_patronal">
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        
+                        <fieldset>
+                            <legend><i class="zmdi zmdi-phone"></i> Contactos</legend>
+                            
+                            <div class="form-group">
+                                <label for="telefono" class="col-sm-2 control-label">Teléfono:</label>
+                                <div class="col-sm-2">
+                                    <div class="fg-line">
+                                        <input id="telefono" type="tel" class="form-control input-sm" 
+                                               data-input-mask="{ mask: '(00) 0000000' }" placeholder="Ej. (01) 1234567"
+                                               data-ng-model="empresa.instancia.telefono">
+                                    </div>
+                                </div>
+                                <label for="fax" class="col-sm-offset-4 col-sm-1 control-label">Fax:</label>
+                                <div class="col-sm-2">
+                                    <div class="fg-line">
+                                        <input id="fax" type="tel" class="form-control input-sm" placeholder="Fax"
+                                               data-ng-model="empresa.instancia.fax">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email" class="col-sm-2 control-label">Email:</label>
+                                <div class="col-sm-5">
+                                    <div class="fg-line">
+                                        <input id="email" type="email" class="form-control input-sm" placeholder="Email"
+                                               data-ng-model="empresa.instancia.email">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="pagweb" class="col-sm-2 control-label">Sitio Web:</label>
+                                <div class="col-sm-5">
+                                    <div class="fg-line">
+                                        <input id="pagweb" type="text" class="form-control input-sm" placeholder="Sitio web"
+                                               data-ng-model="empresa.instancia.pagweb">
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        
+                        <fieldset>
+                            <div class="form-group">
+                                <div class="col-sm-11">
+                                    <button type="submit" class="btn btn-primary btn-sm" 
+                                            data-ng-disabled="frmEmpresa.nomemp.$invalid || frmEmpresa.ruc.$invalid">Guardar cambios</button>
+                                    <button type="reset" class="btn btn-default btn-sm">Cancelar</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
                 </div>
             </div>
         </div>

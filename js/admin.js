@@ -35,7 +35,17 @@ mycofiApp.config(function($stateProvider, $urlRouterProvider) {
     $stateProvider.state('nuevaempresa', {
         url: '/nuevaempresa',
         templateUrl: 'views/admin/empresa-form.html',
-        controller: 'EmpresaCtrl as empresa'
+        controller: 'EmpresaCtrl as empresa',
+        resolve: {
+            loadPlugin: function($ocLazyLoad) {
+                return $ocLazyLoad.load([
+                    {
+                        name: 'vendors',
+                        files: [ 'vendors/input-mask/input-mask.min.js' ]
+                    }
+                ]);
+            }
+        }
     });
     
 });

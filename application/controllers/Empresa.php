@@ -30,13 +30,6 @@ class Empresa extends CrudController {
     }
     
     /**
-     * Carga y devuelve la vista de mantenimiento de empresas.
-     */
-    public function index2() {
-        $this->load->view('configuracion/empresa_view');
-    }
-    
-    /**
      * Responde con las empresas a las que tiene acceso el usuario que ha iniciado sesión
      * para el sistema que ha seleccionado. La lista se envía en formato JSON.
      */

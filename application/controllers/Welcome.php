@@ -18,7 +18,8 @@ class Welcome extends CI_Controller {
      * @see https://codeigniter.com/user_guide/general/urls.html
      */
     public function index() {
-        redirect(isset($this->session->coduser) ? '/dashboard' : '/login');
+        if (!isset($this->session->coduser)) redirect('/login');
+        $this->load->view('inicio');
     }
         
 }
