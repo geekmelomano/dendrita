@@ -1,6 +1,7 @@
 
 mycofiApp.controller('GrupoEmpresaCtrl', ['NgTableParams', 'grupoEmpresaService', GrupoEmpresaCtrl]);
 mycofiApp.controller('EmpresaCtrl', ['NgTableParams', 'empresaService', 'grupoEmpresaService', EmpresaCtrl]);
+mycofiApp.controller('LocalidadCtrl', ['NgTableParams', 'localidadService', LocalidadCtrl]);
 
 function GrupoEmpresaCtrl(NgTableParams, grupoEmpresaService) {
     var vm = this;
@@ -49,9 +50,7 @@ function EmpresaCtrl(NgTableParams, empresaService, grupoEmpresaService) {
         tipo_negocio: '',
         nom_representante: '',
         dni_representante: '',
-        estado: vm.estados[0],
-        usuario: localStorage.getItem('coduser'),
-        fechamodificacion: new Date()
+        estado: vm.estados[0]
     };
     
     vm.grupos = [];
@@ -60,26 +59,38 @@ function EmpresaCtrl(NgTableParams, empresaService, grupoEmpresaService) {
         vm.grupos = datos;
     });
     
-    vm.inicializar = function() {
-        vm.instancia.codemp = '';
-        vm.instancia.codgru = null;
-        vm.instancia.nomemp = '';
-        vm.instancia.dirfis = '';
-        vm.instancia.dirleg = '';
-        vm.instancia.ubigeo = '';
-        vm.instancia.ruc = '';
-        vm.instancia.telefono = '';
-        vm.instancia.fax = '';
-        vm.instancia.email = '';
-        vm.instancia.pagweb = '';
-        vm.instancia.reg_patronal = '';
-        vm.instancia.giro_negocio = '';
-        vm.instancia.tipo_negocio = '';
-        vm.instancia.nom_representante = '';
-        vm.instancia.dni_representante = '';
-        vm.instancia.estado = vm.estados[0];
-        vm.instancia.usuario = localStorage.getItem('coduser');
-        vm.instancia.fechamodificacion = new Date();
+    vm.inicializar = function(sucio) {
+        if (!sucio) return;
+        
+        swal({   
+            title: "Limpiar Formulario",
+            text: "Realmente desea descartar todos los cambios que ha realizado? Esto no se podrá deshacer.",   
+            type: "warning",   
+            showCancelButton: true,   
+            confirmButtonColor: "#DD6B55",   
+            confirmButtonText: "Sí, adelante!",   
+            cancelButtonText: "No, cancela por favor!"
+        }, function(isConfirm){
+            if (!isConfirm) return;
+            
+            vm.instancia.codemp = '';
+            vm.instancia.codgru = null;
+            vm.instancia.nomemp = '';
+            vm.instancia.dirfis = '';
+            vm.instancia.dirleg = '';
+            vm.instancia.ubigeo = '';
+            vm.instancia.ruc = '';
+            vm.instancia.telefono = '';
+            vm.instancia.fax = '';
+            vm.instancia.email = '';
+            vm.instancia.pagweb = '';
+            vm.instancia.reg_patronal = '';
+            vm.instancia.giro_negocio = '';
+            vm.instancia.tipo_negocio = '';
+            vm.instancia.nom_representante = '';
+            vm.instancia.dni_representante = '';
+            vm.instancia.estado = vm.estados[0];
+        });
     };
     
     vm.guardar = function() {
@@ -88,4 +99,17 @@ function EmpresaCtrl(NgTableParams, empresaService, grupoEmpresaService) {
         });
     };
     
+}
+
+function LocalidadCtrl(NgTableParams, localidadService) {
+    var vm = this;
+    
+    vm.lista = new NgTableParams({ count: 10, page: 1 }, {
+        getData: function(params) {
+            return localidadService.leer().then(function(datos) {
+                params.total(datos.length);
+                return datos;
+            });
+        }
+    });
 }

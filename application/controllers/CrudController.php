@@ -10,7 +10,7 @@
  * @since 1.0
  */
 abstract class CrudController extends CI_Controller {
-    
+
     /**
      * Constructor. Carga la clase que implementa el modelo de acceso a datos, el cual
      * puede ser utilizado desde las subclases a través del campo "modelo".

@@ -17,3 +17,10 @@ mycofiApp.service('empresaService', ['$resource', function($resource) {
         return Empresa.query().$promise;
     };
 }]);
+
+mycofiApp.service('localidadService', ['$resource', function($resource) {
+    this.leer = function() {
+        var Localidades = $resource('/mycofi/localidad/obtener');
+        return Localidades.query().$promise;
+    };
+}]);

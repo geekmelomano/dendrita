@@ -13,14 +13,22 @@ abstract class Abstract_model extends CI_Model {
     
     // El nombre de la tabla de la base de datos sobre la que se realizarán las operaciones.
     private $tabla;
+    
+    // El nombre del campo que es la clave primaria de la tabla.
+    // Solo para tablas cuya PK tenga un único campo.
+    private $pk;
 
     /**
-     * Constructor. Inicializa el nombre de la tabla de la base de datos.
+     * Constructor. Inicializa el nombre de la tabla de la base de datos y el campo
+     * que es clave primaria en la tabla (solo para tablas cuya PK tenga un único campo).
+     * 
      * @param string $tabla El nombre de la tabla.
+     * @param string $pk El nombre del campo que es PK de la tabla.
      */
-    public function __construct($tabla) {
+    public function __construct($tabla, $pk = NULL) {
         parent::__construct();
         $this->tabla = $tabla;
+        $this->pk = $pk;
     }
 
     /**
@@ -82,17 +90,25 @@ abstract class Abstract_model extends CI_Model {
     }
     
     /**
-     * Establece los campos de la tabla que van a ser creados o actualizados, utilizando
-     * los parámetros HTTP enviados vía POST. Cada subclase debe declarar un campo
-     * público para cada campo de la tabla.
+     * Devuelve el último registro de la tabla en función del valor de su clave primaria.
+     * Utilizado para obtener el registro insertado cuando la PK es autogenerada.
+     * 
+     * @return object Un objeto que contiene los datos del registro.
+     */
+    public function obtener_ultimo() {
+        return $this->db->order_by($this->pk, 'DESC')->get($this->tabla, 1, 1)->row();
+    }
+
+    /**
+     * Establece los campos de la tabla que van a ser creados o actualizados. Cada 
+     * subclase debe declarar un campo público para cada campo de la tabla. 
      * 
      * @param string $accion Puede ser C (create), U (update) o D (delete)
      */
     protected abstract function _establecer_campos($accion);
     
     /**
-     * Devuelve la clave primaria del registro a través de los parámetros HTTP enviados
-     * vía POST.
+     * Devuelve la clave primaria del registro.
      * 
      * @return array Los datos de la clave primaria del registro.
      */

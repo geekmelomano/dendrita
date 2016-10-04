@@ -66,7 +66,7 @@ class Empresa_model extends Abstract_model {
     public $tipo_vista_eeff;
     
     public function __construct() {
-        parent::__construct('pub_empresas');
+        parent::__construct('pub_empresas', 'codemp');
     }
     
     /**
@@ -83,17 +83,15 @@ class Empresa_model extends Abstract_model {
     }
 
     protected function _establecer_campos($accion) {
+        $datos = json_decode(file_get_contents('php://input'));
+        $this->_establecer_campos_basicos($datos);
+        $this->usuario = $this->session->coduser;
+        $this->fechamodificacion = date('Y-m-d H:i:s', now('America/Lima'));
+        
         if ($accion == 'C') {
             $this->agente_retencion = '0';
             $this->agente_percepcion = '0';
         }
-        
-        $this->_establecer_campos_basicos();
-        $this->usuario = $this->session->coduser;
-        $this->fechamodificacion = date('Y-m-d H:i:s', now('America/Lima'));
-        
-        $grupo = $this->input->post('codgru');
-        $this->codgru = $grupo == '' ? NULL : $grupo;
     }
 
     /**
@@ -106,23 +104,24 @@ class Empresa_model extends Abstract_model {
         return array('codemp' => $this->input->post('codemp'));
     }
     
-    private function _establecer_campos_basicos() {
-        $this->codemp = $this->input->post('codemp');
-        $this->nomemp = $this->input->post('nomemp');
-        $this->dirfis = $this->input->post('dirfis');
-        $this->dirleg = $this->input->post('dirleg');
-        $this->ubigeo = $this->input->post('ubigeo');
-        $this->ruc = $this->input->post('ruc');
-        $this->telefono = $this->input->post('telefono');
-        $this->fax = $this->input->post('fax');
-        $this->email = $this->input->post('email');
-        $this->pagweb = $this->input->post('pagweb');
-        $this->reg_patronal = $this->input->post('reg_patronal');
-        $this->giro_negocio = $this->input->post('giro_negocio');
-        $this->tipo_negocio = $this->input->post('tipo_negocio');
-        $this->nom_representante = $this->input->post('nom_representante');
-        $this->dni_representante = $this->input->post('dni_representante');
-        $this->estado = $this->input->post('estado');
+    private function _establecer_campos_basicos($datos) {
+        $this->codemp = $datos->codemp;
+        $this->codgru = $datos->codgru;
+        $this->nomemp = $datos->nomemp;
+        $this->dirfis = $datos->dirfis;
+        $this->dirleg = $datos->dirleg;
+        $this->ubigeo = $datos->ubigeo;
+        $this->ruc = $datos->ruc;
+        $this->telefono = $datos->telefono;
+        $this->fax = $datos->fax;
+        $this->email = $datos->email;
+        $this->pagweb = $datos->pagweb;
+        $this->reg_patronal = $datos->reg_patronal;
+        $this->giro_negocio = $datos->giro_negocio;
+        $this->tipo_negocio = $datos->tipo_negocio;
+        $this->nom_representante = $datos->nom_representante;
+        $this->dni_representante = $datos->dni_representante;
+        $this->estado = $datos->estado->id;
     }
 
 }

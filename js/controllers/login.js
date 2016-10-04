@@ -8,9 +8,6 @@ mycofiApp.controller('LoginCtrl', [
     'growlService', 
     'usuarioService', 
     'sesionService', 
-//    'sistemaService', 
-//    'empresaService',
-//    'localidadService',
     LoginCtrl
 ]);
 
@@ -24,17 +21,6 @@ function LoginCtrl($window, growlService, usuarioService, sesionService) {
     vm.iconoUsuario = '';
     vm.mensajeUsuario = '';
     vm.nombreUsuario = '';
-//    vm.esAdministrador = false;
-//    vm.paso = '';
-//    
-//    vm.sistemas = [];
-//    vm.sistema = false;
-//    
-//    vm.empresas = [];
-//    vm.empresa = false;
-//    
-//    vm.localidades = [];
-//    vm.localidad = false;
 
     vm.validarUsuario = function() {
         if (typeof vm.username === 'undefined' || vm.username === '')
@@ -62,11 +48,6 @@ function LoginCtrl($window, growlService, usuarioService, sesionService) {
             vm.logueado = (respuesta.data.estado === 'success');
             
             if (vm.logueado) {
-//                vm.nombreUsuario = respuesta.data.usuario.nom_usuario;
-//                vm.esAdministrador = (respuesta.data.usuario.tipo_usuario === '99');
-//                vm.paso = 'selecciona un sistema';
-//                vm.listarSistemas();
-                
                 localStorage.setItem('coduser', respuesta.data.usuario.cod_usuario);
                 localStorage.setItem('nomuser', respuesta.data.usuario.nom_usuario);
                 localStorage.setItem('tipo_usuario', respuesta.data.usuario.tipo_usuario);
@@ -91,16 +72,6 @@ function LoginCtrl($window, growlService, usuarioService, sesionService) {
                 sesionService.cerrar().then(function(respuesta) {
                     vm.mostrarValidacion('', '', '');
                     vm.logueado = false;
-//                    vm.nombreUsuario = '';
-//                    vm.esAdministrador = false;
-//                    vm.paso = '';
-//                    vm.sistemas = [];
-//                    vm.sistema = false;
-//                    vm.empresas = [];
-//                    vm.empresa = false;
-//                    vm.localidades = [];
-//                    vm.localidad = false;
-                    
                     localStorage.clear();
                 }, function(respuesta) {
                     vm.mostrarError('Ha ocurrido un error al intentar cerrar la sesión.', respuesta);
@@ -109,55 +80,8 @@ function LoginCtrl($window, growlService, usuarioService, sesionService) {
         });
     };
     
-//    vm.listarSistemas = function() {
-//        sistemaService.listar().then(function(respuesta) {
-//            vm.sistemas = respuesta;
-//            
-//            if (vm.sistemas.length === 1) {
-//                vm.sistema = vm.sistemas[0];
-//                vm.listarEmpresas();
-//            }
-//        }, function(respuesta) {
-//            vm.mostrarError('Ha ocurrido un error al intentar obtener la lista de sistemas.', respuesta);
-//        });
-//    };
-//    
-//    vm.listarEmpresas = function() {
-//        empresaService.listar(vm.sistema.codsis).then(function(respuesta) {
-//            vm.empresas = respuesta;
-//            
-//            if (vm.empresas.length === 1) {
-//                vm.empresa = vm.empresas[0];
-//                vm.listarLocalidades();
-//            }
-//        }, function(respuesta) {
-//            vm.mostrarError('Ha ocurrido un error al intentar obtener la lista de empresas.', respuesta);
-//        });
-//        
-//        vm.paso = 'selecciona una empresa';
-//    };
-//    
-//    vm.listarLocalidades = function() {
-//        localidadService.listar(vm.sistema.codsis, vm.empresa.codemp).then(function(respuesta) {
-//            vm.localidades = respuesta;
-//            
-//            if (vm.localidades.length === 1) {
-//                vm.localidad = vm.localidades[0];
-//                vm.paso = 'pulsa el botón azul';
-//            }
-//        }, function(respuesta) {
-//            vm.mostrarError('Ha ocurrido un error al intentar obtener la lista de localidades.', respuesta);
-//        });
-//        
-//        vm.paso = 'selecciona una localidad';
-//    };
-    
     vm.mostrarError = function(mensaje, respuesta) {
         growlService.growl(mensaje + '<br>Error ' + respuesta.status + ' - ' + respuesta.statusText, 'danger');
     };
-    
-//    vm.irAAdmin = function() {
-//        $window.location.href = 'http://localhost/mycofi/admin';
-//    };
 
 }

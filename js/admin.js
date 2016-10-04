@@ -26,6 +26,8 @@ mycofiApp.config(function($stateProvider, $urlRouterProvider) {
         controller: 'GrupoEmpresaCtrl as grupo'
     });
     
+    //
+    
     $stateProvider.state('empresas', {
         url: '/empresas',
         templateUrl: 'views/admin/empresas.html',
@@ -46,6 +48,14 @@ mycofiApp.config(function($stateProvider, $urlRouterProvider) {
                 ]);
             }
         }
+    });
+    
+    //
+    
+    $stateProvider.state('localidades', {
+        url: '/localidades',
+        templateUrl: 'views/admin/localidades.html',
+        controller: 'LocalidadCtrl as localidad'
     });
     
 });
